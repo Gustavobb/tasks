@@ -13,7 +13,8 @@ def get_task(request):
 
 @api_view(["POST"])
 def create_task(request):
-    pass
+    print(request)
+    return HttpResponse(request)
 
 @api_view(["POST"])
 def delete_task(request, task_id):
