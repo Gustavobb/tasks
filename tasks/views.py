@@ -6,7 +6,7 @@ from tasks.models import Task
 def index(request):
     return HttpResponse("Hello, world. You're at the tasks index.")
 
-def get_task(request):
+def get_tasks(request):
     return HttpResponse(Task.objects.all())
 
 def create_task(request):
