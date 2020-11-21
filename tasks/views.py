@@ -27,7 +27,7 @@ def get_task(request, task_title):
 def create_task(request):
     if request.method == 'POST':
         data = JSONParser().parse(request)
-        serializer =TaskSerializer(data=data)
+        serializer = TaskSerializer(data=data)
 
         if serializer.is_valid():
             serializer.save()
