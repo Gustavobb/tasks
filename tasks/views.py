@@ -34,6 +34,7 @@ def create_task(request):
             return JsonResponse(serializer.data, status=201)
         return JsonResponse(serializer.errors, status=400)
 
+@csrf_exempt
 def delete_task(request, task_title):
     if request.method == 'DELETE':
         try: Task.objects.get(pk=task_title).delete()
@@ -41,6 +42,7 @@ def delete_task(request, task_title):
 
         return HttpResponse("Task deleted")
 
+@csrf_exempt
 def delete_tasks(request):
     if request.method == 'DELETE':
         task = Task.objects.all().delete()
