@@ -3,6 +3,7 @@ from django.http import HttpResponse, JsonResponse
 from tasks.models import Task
 from tasks.serializer import TaskSerializer
 from rest_framework.parsers import JSONParser
+from django.views.decorators.csrf import csrf_exempt
 
 # Create your views here.
 def index(request):
@@ -10,21 +11,24 @@ def index(request):
 
 def get_tasks(request):
     if request.method == 'GET':
-        return HttpResponse(Task.objects.all())
+        serializer = TaskSerializer(Task.objects.all(), many =True)
+        return JsonResponse(serializer.data, safe =False)
 
+@csrf_exempt
 def create_task(request):
     if request.method == 'POST':
         data = JSONParser().parse(request)
-        serializer =TaskSerializer(data = data)
+        serializer =TaskSerializer(data=data)
 
         if serializer.is_valid():
             serializer.save()
-            return JsonResponse(serializer.data, status =201)
-        return JsonResponse(serializer.errors, status = 400)
+            return JsonResponse(serializer.data, status=201)
+        return JsonResponse(serializer.errors, status=400)
 
-
+@csrf_exempt
 def delete_task(request, task_id):
     pass
 
+@csrf_exempt
 def update_task(request, task_id):
     pass
