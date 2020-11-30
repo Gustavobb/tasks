@@ -14,15 +14,6 @@ def get_tasks(request):
         serializer = TaskSerializer(Task.objects.all(), many=True)
         return JsonResponse(serializer.data, safe=False)
 
-def get_task(request, task_title):
-    if request.method == 'GET':
-        try: 
-            task = Task.objects.get(pk=task_title)
-        except Task.DoesNotExist: 
-            raise HttpResponse("Task not found")
-
-        return JsonResponse(task, safe=False, status=201)
-
 @csrf_exempt
 def create_task(request):
     if request.method == 'POST':
@@ -33,14 +24,6 @@ def create_task(request):
             serializer.save()
             return JsonResponse(serializer.data, status=201)
         return JsonResponse(serializer.errors, status=400)
-
-@csrf_exempt
-def delete_task(request, task_title):
-    if request.method == 'DELETE':
-        try: Task.objects.get(pk=task_title).delete()
-        except Task.DoesNotExist: raise HttpResponse("Task not found")
-
-        return HttpResponse("Task deleted")
 
 @csrf_exempt
 def delete_tasks(request):
